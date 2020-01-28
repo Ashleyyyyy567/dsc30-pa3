@@ -192,7 +192,7 @@ public class Deque {
         }
         else if(head > tail && head != this.capacity() - 1){
             element = (Integer) list.get(head);
-            this.list.set(head, 0)
+            this.list.set(head, 0);
             this.head += 1;
             this.size -= 1;
             return element;
@@ -218,17 +218,17 @@ public class Deque {
         if(this.isEmpty()){
             return null;
         }
-        else if (this.head < this.tail) {
-            element = (Integer) this.list.get(this.tail - 1);
-            this.list.set(this.tail - 1, 0);
-            this.tail -= 1;
+        else if (head < tail || (head > tail && tail != 0)) {
+            element = (Integer) list.get(tail - 1);
+            list.set(tail - 1, 0);
+            tail -= 1;
             this.size -= 1;
             return element;
         }
-        else if(this.head > this.tail && this.tail == 0){
-            element = (Integer) this.list.get(this.tail - 1);
-            this.list.set(this.tail - 1, 0);
-            this.tail = this.capacity();
+        else if(head > tail && tail == 0){
+            element = (Integer) list.get(this.capacity() - 1);
+            list.set(this.tail - 1, 0);
+            this.tail = this.capacity() - 1;
             this.size -= 1;
             return element;
         }
@@ -245,7 +245,7 @@ public class Deque {
         if(this.isEmpty()){
             return null;
         }
-        Integer element  = (Integer) this.list.get(head);
+        Integer element  = (Integer) list.get(head);
         return element;
     }
 
@@ -260,11 +260,11 @@ public class Deque {
         if(this.isEmpty()){
             return null;
         }
-        else if(this.tail == 0){
-            element = (Integer) this.list.get(this.capacity());
+        else if(tail == 0){
+            element = (Integer) list.get(this.capacity() - 1);
         }
         else{
-            element = (Integer) this.list.get(this.tail - 1);
+            element = (Integer) list.get(this.tail - 1);
         }
         return element;
     }

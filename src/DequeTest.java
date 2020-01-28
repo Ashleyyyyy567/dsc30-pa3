@@ -12,6 +12,9 @@ public class DequeTest {
     private Deque one; // deque with one element
     private Deque many; // deque with several elements
     private Deque full; // full deque
+    private Deque test1; // test deque
+    private Deque test2; // test deque
+    private Deque test3; // test deque
 
     private int CAP = 10; // capacity of deque
     private int SIZE = 5; // number of elements in deque
@@ -38,6 +41,12 @@ public class DequeTest {
         for (int index2 = 0; index2 < CAP; index2++) {
             full.addBack(index2);
         }
+
+
+        test1 = new Deque(SIZE);
+        test2 = new Deque(SIZE);
+        test3 = new Deque(SIZE);
+
     }
 
     /** Test if each created deque has the specified capacity */
@@ -47,6 +56,11 @@ public class DequeTest {
         assertEquals("Check capacity=10", CAP, one.capacity() );
         assertEquals("Check capacity=10", CAP, many.capacity() );
         assertEquals("Check capacity=10", CAP, full.capacity() );
+
+        assertEquals("Check capacity=5", SIZE, test1.capacity());
+        assertEquals("Check capacity=5", SIZE, test2.capacity());
+        assertEquals("Check capacity=5", SIZE, test3.capacity());
+
     }
 
     /** Test if returns the correct size of the Deque for empty, filled, and
