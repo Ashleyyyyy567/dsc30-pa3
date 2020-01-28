@@ -47,6 +47,14 @@ public class DequeTest {
         test2 = new Deque(SIZE);
         test3 = new Deque(SIZE);
 
+        for(int i = 0; i < SIZE; i++){
+            test2.addFront(i);
+        }
+
+        for(int i = 0; i < SIZE; i++){
+            test3.addBack(i);
+        }
+
     }
 
     /** Test if each created deque has the specified capacity */
@@ -72,6 +80,10 @@ public class DequeTest {
         assertEquals("Check size is 1", 1, one.size() );
         assertEquals("Check size is 5", SIZE, many.size() );
         assertEquals("Check size is CAP (10)", CAP, full.size() );
+
+        assertEquals("Check size is 0", 0, test1.size() );
+        assertEquals("Check size is 5", SIZE, test2.size() );
+        assertEquals("Check size is 5", SIZE, test3.size() );
     }
 
     /** Tests adding an element to the front of the deque for empty, filled,
@@ -93,6 +105,11 @@ public class DequeTest {
 
         assertFalse(full.addFront(10));
 
+
+
+        assertFalse(test2.addFront(10));
+        assertEquals("Element must equal 0", 0, (int)test2.removeFront());
+        assertFalse(test3.addFront(10));
     }
 
     /** Test add front method stops inserting elements when array is full */
@@ -135,6 +152,8 @@ public class DequeTest {
         assertEquals("Element must equal 10", 10, (int)many.removeBack());
 
         assertFalse(full.addBack(10));
+
+
 
     }
 
