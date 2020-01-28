@@ -7,6 +7,19 @@ public class MyQueue {
 
     private Deque queue;
 
+    public static void main(String args[]){
+        MyQueue test = new MyQueue(2);
+        System.out.println(test.isEmpty());
+        test.enqueue(1);
+        System.out.println(test.isFull());
+        System.out.println(test.isEmpty());
+        System.out.println(test.isFull());
+
+        System.out.println(test.dequeue());
+        test.enqueue(2);
+        System.out.println(test.dequeue());
+    }
+
     /** Constructor to create new MyQueue using default Deque */
     public MyQueue() {
         queue = new Deque();

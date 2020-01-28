@@ -179,27 +179,18 @@ public class Deque {
      * @return  the element removed, or null if the size was zero.
      */
     public Integer removeFront() {
-        Integer element = 0;
+        int element = 0;
         if(this.isEmpty()){
             return null;
         }
-        else if(this.head < this.tail){
-            element = (Integer) list.get(head);
-            list.set(head, 0);
-            head += 1;
-            size -= 1;
-            return element;
-        }
-        else if(head > tail && head != this.capacity() - 1){
-            element = (Integer) list.get(head);
-            list.set(head, 0);
-            head += 1;
-            size -= 1;
-        }
-        else if(head > tail && head == this.capacity() - 1){
-            element = (Integer)list.get(head);
-            list.set(head, 0);
+        else if(head == this.capacity() - 1){
+            element = (int)list.get(head);
             head = 0;
+            size -= 1;
+        }
+        else{
+            element = (int)list.get(head);
+            head += 1;
             size -= 1;
         }
         return element;
