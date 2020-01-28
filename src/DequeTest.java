@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 /**
  *  Title: class DequeTest
  *  Description: JUnit test class for Deque class
+ * @ author: Lehan Li
  */
 public class DequeTest {
 

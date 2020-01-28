@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Deque Class.
  * A class of a deque implemented using a "circular" array.
- * @author Don Vo
+ * @author Lehan Li
  * @Version 1.0
  */
 public class Deque {
@@ -19,7 +19,11 @@ public class Deque {
      * @throws IllegalArgumentException
      */
     public Deque() throws IllegalArgumentException {
-        this.list = new ArrayList<Integer>(5);
+        int defaultC = 5;
+        list = new ArrayList<Integer>(defaultC);
+        for(int i = 0; i < defaultC; i++){
+            list.add(0);
+        }
     }
 
     /**
@@ -33,6 +37,9 @@ public class Deque {
             throw new IllegalArgumentException();
         }
         this.list = new ArrayList<Integer>(cap);
+        for(int i = 0; i < cap; i++){
+            list.add(0);
+        }
     }
 
     /**
@@ -42,7 +49,8 @@ public class Deque {
      * @return the capacity of the list
      */
     public int capacity() {
-        return this.list.size();
+
+        return list.size();
     }
 
     /**
@@ -51,7 +59,7 @@ public class Deque {
      * @return the number of elements in the list
      */
     public int size() {
-        return this.size;
+        return size;
     }
 
     /**
@@ -60,7 +68,7 @@ public class Deque {
      * @return if the Deque is empty.
      */
     public boolean isEmpty() {
-        if(this.size == 0){
+        if(size == 0){
             return true;
         }
         else{
@@ -75,10 +83,10 @@ public class Deque {
      */
     public boolean isFull() {
         boolean status = false;
-        if(this.list.isEmpty() == true){
+        if(this.isEmpty() == true){
             status = false;
         }
-        else{
+        else if(size == this.capacity()){
             status = true;
         }
         return status;
@@ -96,29 +104,29 @@ public class Deque {
         if(i == null){
             throw new NullPointerException();
         }
-        else if(this.isFull()){
+        else if(list.size() <= size){
             return false;
         }
         if(this.isEmpty()){
-            this.head = 0;
-            this.tail = 1;
-            this.list.set(0, i);
-            this.size += 1;
+            head = 0;
+            tail = 1;
+            list.set(0, i);
+            size += 1;
         }
-        else if(this.head < this.tail && this.head != 0){
-            this.head -= 1;
-            this.list.set(head, i);
-            this.size += 1;
+        else if(head < tail && head != 0){
+            head -= 1;
+            list.set(head, i);
+            size += 1;
         }
-        else if(this.head < this.tail && this.head == 0){
-            this.head = this.capacity();
-            this.list.set(head, i);
-            this.size += 1;
+        else if(head < tail && head == 0){
+            head = capacity() - 1;
+            list.set(head, i);
+            size += 1;
         }
-        else if(this.head > this.tail){
-            this.head -= 1;
-            this.list.set(head,i);
-            this.size += 1;
+        else if(head > tail){
+            head -= 1;
+            list.set(head,i);
+            size += 1;
         }
         return true;
     }
@@ -136,31 +144,32 @@ public class Deque {
         if(i == null){
             throw new NullPointerException();
         }
-        else if(this.isEmpty()){
+        else if(this.isFull()){
             return false;
         }
         if(this.isEmpty()){
-            this.head = 0;
-            this.tail = 1;
-            this.list.set(0, i);
-            this.tail += 1;
-            this.size += 1;
+            head = 0;
+            tail = 0;
+            list.set(tail, i);
+            tail += 1;
+            size = 1;
         }
-        else if(this.head < this.tail && this.tail != this.capacity()){
+        else if(head < tail && tail != this.capacity() - 1){
+            list.set(tail, i);
+            tail += 1;
+            size += 1;
+        }
+        else if(head < tail && tail == this.capacity() - 1){
             this.list.set(tail, i);
-            this.tail += 1;
-            this.size += 1;
+            tail = 0;
+            size += 1;
         }
-        else if(this.head < this.tail && this.tail == this.capacity()){
+        else{
             this.list.set(tail, i);
-            this.tail = 0;
-            this.size += 1;
+            tail += 1;
+            size += 1;
         }
-        else if(this.tail < this.head){
-            this.list.set(tail, i);
-            this.tail += 1;
-            this.size += 1;
-        }
+        return true;
     }
 
     /**
@@ -175,22 +184,25 @@ public class Deque {
             return null;
         }
         else if(this.head < this.tail){
-            element = (Integer) this.list.get(head);
-            this.list.set(head, 0);
+            element = (Integer) list.get(head);
+            list.set(head, 0);
+            head += 1;
+            size -= 1;
+            return element;
+        }
+        else if(head > tail && head != this.capacity() - 1){
+            element = (Integer) list.get(head);
+            this.list.set(head, 0)
             this.head += 1;
             this.size -= 1;
+            return element;
         }
-        else if(this.head > this.tail && this.head != this.capacity()){
-            element = (Integer) this.list.get(head);
-            this.list.set(head, 0);
-            this.head += 1;
-            this.size -= 1;
-        }
-        else if(this.head > this.tail && this.head == this.capacity()){
-            element = (Integer)this.list.get(head);
-            this.list.set(head, 0);
-            this.head = 0;
-            this.size -= 1;
+        else if(head > tail && head == this.capacity() - 1){
+            element = (Integer)list.get(head);
+            list.set(head, 0);
+            head = 0;
+            size -= 1;
+            return element;
         }
         return element;
     }
@@ -211,12 +223,14 @@ public class Deque {
             this.list.set(this.tail - 1, 0);
             this.tail -= 1;
             this.size -= 1;
+            return element;
         }
         else if(this.head > this.tail && this.tail == 0){
             element = (Integer) this.list.get(this.tail - 1);
             this.list.set(this.tail - 1, 0);
             this.tail = this.capacity();
             this.size -= 1;
+            return element;
         }
         return element;
     }
