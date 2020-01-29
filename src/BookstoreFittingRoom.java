@@ -1,3 +1,5 @@
+import javax.xml.namespace.QName;
+
 /**
  * Implement a fitting room queue using Deque.
  * @author Lehan Li
@@ -14,30 +16,30 @@ public class BookstoreFittingRoom {
     public static void main(String[] args) {
         /*MyQueue room1 = new MyQueue(1);
         MyQueue room2 = new MyQueue(1);
-        //MyQueue room3 = new MyQueue(1);
+        MyQueue room3 = new MyQueue(1);
         room1.enqueue(2);
-        room2.enqueue(2);
-        //room3.enqueue(3);
+        room2.enqueue(1);
+        room3.enqueue(3);
 
-        changingRooms = new MyQueue[2];
+        changingRooms = new MyQueue[3];
         changingRooms[0] = room1;
         changingRooms[1] = room2;
-        //changingRooms[2] = room3;
+        changingRooms[2] = room3;
 
         System.out.println(findFirstEmptyChangingRoom());
 
 
-        room1.dequeue();
+        //room1.dequeue();
         room2.dequeue();
-        //room3.dequeue();
+        room3.dequeue();
         customersQueue = new MyQueue(2);
         customersQueue.enqueue(1);
         customersQueue.dequeue();
+        System.out.println(storeIsEmpty()); */
 
-        System.out.println(storeIsEmpty());*/
 
-        int[][] customers = {{1, 2, 1}, {2, 2, 0}, {1, 0, 2}};
-        System.out.println(timeInfo(customers, 2, 10));
+        int[][] customers = {  {1,0,4} , {0,2,0} , {0,1,2} , {3,2,0}};
+        System.out.println(timeInfo(customers, 2, 20));
 
     }
 
@@ -59,11 +61,15 @@ public class BookstoreFittingRoom {
         int pants = 3;
         int tempCus;
         MyQueue emptyRoom;
+        MyQueue holder = null;
         int nextCustomer;
         int timeRemain;
-        int totalTime = 0;
+        int totalTime = closingTime;
         int idleTime = 0;
         int wasteTime = 0;
+        int number = -1;
+
+        int test = -1;
         changingRooms = new MyQueue[numberOfChangingRooms];
         for(int j = 0; j < numberOfChangingRooms; j ++){
             changingRooms[j] = new MyQueue(1); //one room can only fit one customer
@@ -76,50 +82,50 @@ public class BookstoreFittingRoom {
             customersQueue.enqueue(timeNeed);
         }
 
-
         // assign the customer into empty fitting rooms from the customersQueue
-        for(int j = 0; j < changingRooms.length; j++ ){
+        for(int j = 0; j < changingRooms.length ; j++ ){
             tempCus = customersQueue.dequeue();
             changingRooms[j].enqueue(tempCus);
         }
+
+
         //use closing time as a count, for every minute, check if there are any empty room
         for(int i = 0; i < closingTime; i++){
-
-            System.out.println(findFirstEmptyChangingRoom());
-
-
-
-
-            if(!(findFirstEmptyChangingRoom() == null)){
+            holder = findFirstEmptyChangingRoom();
+            if( !(holder == null)){
                 emptyRoom = findFirstEmptyChangingRoom();
             }
             else{
                 continue;
             }
-            if(storeIsEmpty()){
-                System.out.println("d");
-                idleTime = (closingTime - i) * changingRooms.length;
-                break;
+
+            if(customersQueue.size() == 0){
+                for(int j = 0; j < changingRooms.length; j ++){
+                    number = changingRooms[j].dequeue();
+                    if(number <= -1){
+                        idleTime += 1;
+                        changingRooms[j].enqueue(number);
+
+                    }
+                }
             }
+
             else{
                 for(int j = 0; j < customersQueue.size(); j++){
                     nextCustomer = customersQueue.dequeue();
                     timeRemain = closingTime - i;
                     if(timeRemain >= nextCustomer){
-                        System.out.println("e");
+                        emptyRoom.dequeue();
                         emptyRoom.enqueue(nextCustomer);
                         break;
                     }
                     else{
-                        System.out.println("f");
                         wasteTime += nextCustomer;
                     }
                 }
-
             }
-            totalTime += 1;
         }
-        System.out.println("g");
+
         // after closing time, check if there are any customer in line,
         //if so, add their time to waste time
         if(!customersQueue.isEmpty()){
@@ -141,42 +147,54 @@ public class BookstoreFittingRoom {
      */
     private static MyQueue findFirstEmptyChangingRoom() {
         // declare variables
-        MyQueue tempRoom;
+        MyQueue tempRoom = new MyQueue(1);
         int timeRemain;
+        int newTime;
 
         // store each changing room into tempRoom,
         // the integer represents time needed, subtract 1 that is passed
         // if integer equals to zero, it means the room is empty
+        for(int i = 0; i < changingRooms.length; i++) {
+            tempRoom = changingRooms[i];
+            if(tempRoom.size() <= 0){
+                tempRoom.enqueue(0);
+            }
+            timeRemain = tempRoom.dequeue() - 1;
+            tempRoom.enqueue(timeRemain);
+        }
+
         for(int i = 0; i < changingRooms.length; i++){
             tempRoom = changingRooms[i];
             timeRemain = tempRoom.dequeue();
-            timeRemain -= 1;
-            if(timeRemain == 0){
+            if(timeRemain <= -1){
+                tempRoom.enqueue(0);
                 return tempRoom;
             }
             tempRoom.enqueue(timeRemain);
         }
         return null;
+
     }
 
     /**
      * Helper method to determine if the shop is empty
-     * @return true if the whole shop is empty
      */
     private static boolean storeIsEmpty() {
         //declare variables
         MyQueue tempRoom;
-
+        int number = -1;
         //check if customer in line is empty, if not, return false
-        if(customersQueue.isEmpty()){
+        if(customersQueue.isEmpty()) {
             //loop through every fitting room, if any room is not empty, return false
-            for(int i = 0; i < changingRooms.length; i++){
+            for (int i = 0; i < changingRooms.length; i++) {
                 tempRoom = changingRooms[i];
-                if(!tempRoom.isEmpty()){
+                number = tempRoom.dequeue();
+                if (number != 0) {
+                    tempRoom.enqueue(number);
                     return false;
                 }
+                //after checking every room and none has customer, return true
             }
-            //after checking every room and none has customer, return true
             return true;
         }
         else{

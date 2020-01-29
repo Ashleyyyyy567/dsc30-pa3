@@ -108,7 +108,7 @@ public class DequeTest {
 
 
         assertFalse(test2.addFront(10));
-        assertEquals("Element must equal 0", 0, (int)test2.removeFront());
+        assertEquals("Element must equal 0", 4, (int)test2.removeFront());
         assertFalse(test3.addFront(10));
     }
 
@@ -154,6 +154,10 @@ public class DequeTest {
         assertFalse(full.addBack(10));
 
 
+        assertFalse(test3.addBack(1));
+        assertFalse(test2.addBack(1));
+        assertTrue(test1.addBack(1));
+
 
     }
 
@@ -195,6 +199,10 @@ public class DequeTest {
         assertEquals("Should be 0", 0, one.size() );
         assertEquals("Should return element 0", 0, (int)many.removeFront() );
         assertEquals("Should be SIZE-1, or 4", SIZE-1, many.size() );
+
+        assertEquals(0, (int)test3.removeFront());
+        assertEquals(1, (int)test3.removeFront());
+        assertEquals(2, (int)test3.removeFront());
     }
 
 
@@ -211,6 +219,10 @@ public class DequeTest {
         assertEquals("Should be 0", 0, one.size() );
         assertEquals("Should return element 4", 4, (int)many.removeBack() );
         assertEquals("Should be SIZE-1, or 4", SIZE-1, many.size() );
+
+        assertEquals(4, (int)test2.removeFront());
+        assertEquals(3, (int)test2.removeFront());
+        assertEquals(2, (int)test2.removeFront());
     }
 
     /** Test retrieving element from front element */
@@ -222,6 +234,10 @@ public class DequeTest {
         assertEquals("Should have size SIZE", SIZE, many.size() );
         assertEquals("Should be 0", 0, (int)full.peekFront() );
         assertEquals("Should have size CAP", CAP, full.size() );
+
+        assertEquals(4, (int)test2.removeFront());
+        assertEquals(0, (int)test3.removeFront());
+        assertEquals(1, (int)test3.removeFront());
     }
 
     /** Test empty list will return null from a call to peek front */
@@ -239,6 +255,10 @@ public class DequeTest {
         assertEquals("Should have size SIZE", SIZE, many.size() );
         assertEquals("Should be 9", 9, (int)full.peekBack() );
         assertEquals("Should have size CAP", CAP, full.size() );
+
+        assertEquals(0, (int)test3.removeFront());
+        assertEquals(4, (int)test2.removeFront());
+        assertEquals(1, (int)test3.removeFront());
     }
 
     /** Test empty list will return null from a call to peek back */
