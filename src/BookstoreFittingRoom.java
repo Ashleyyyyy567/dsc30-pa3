@@ -14,33 +14,6 @@ public class BookstoreFittingRoom {
      * @param args command line arguments.
      */
     public static void main(String[] args) {
-        /*MyQueue room1 = new MyQueue(1);
-        MyQueue room2 = new MyQueue(1);
-        MyQueue room3 = new MyQueue(1);
-        room1.enqueue(2);
-        room2.enqueue(1);
-        room3.enqueue(3);
-
-        changingRooms = new MyQueue[3];
-        changingRooms[0] = room1;
-        changingRooms[1] = room2;
-        changingRooms[2] = room3;
-
-        System.out.println(findFirstEmptyChangingRoom());
-
-
-        //room1.dequeue();
-        room2.dequeue();
-        room3.dequeue();
-        customersQueue = new MyQueue(2);
-        customersQueue.enqueue(1);
-        customersQueue.dequeue();
-        System.out.println(storeIsEmpty()); */
-
-
-        int[][] customers = {  {1,0,4} , {0,2,0} , {0,1,2} , {3,2,0}};
-        System.out.println(timeInfo(customers, 2, 20));
-
     }
 
     /**

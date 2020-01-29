@@ -3,6 +3,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * MyQueue class test.
+ * Tests of implements Queue using Deque.
+ * @ author Lehan Li
+ */
 public class MyQueueTest {
 
     @Before

@@ -1,6 +1,7 @@
 /**
  * MyStack class.
  * Implements Stack using MyQueue.
+ * @aithor: Lehan Li
  */
 public class MyStack {
 
@@ -8,12 +9,12 @@ public class MyStack {
 
     /** Constructor for a MyStack object, using default MyQueue */
     public MyStack() {
-
+        list = new MyQueue();
     }
 
     /** Constructor for a MyStack object, using MyQueue */
     public MyStack(int maxCap) {
-
+        list = new MyQueue(maxCap);
     }
 
     /**
@@ -23,7 +24,7 @@ public class MyStack {
      * @return the capacity of this Stack
      */
     public int capacity() {
-
+        return list.capacity();
     }
 
     /**
@@ -32,7 +33,7 @@ public class MyStack {
      * @return the number of elements in this Stack
      */
     public int size() {
-
+        return list.size();
     }
 
     /**
@@ -40,7 +41,7 @@ public class MyStack {
      * @return whether or not the Stack is empty.
      */
     public boolean isEmpty() {
-
+        return list.isEmpty();
     }
 
     /**
@@ -48,7 +49,7 @@ public class MyStack {
      * @return whether or not the Stack is full.
      */
     public boolean isFull() {
-
+        return list.isFull();
     }
 
     /**
@@ -60,7 +61,16 @@ public class MyStack {
      * and size is less than capacity
      */
     public boolean push(Integer i) {
-
+        if(i == null || list.size() < list.capacity()){
+            throw new NullPointerException();
+        }
+        else if(list.size() >= list.capacity()){
+            return false;
+        }
+        else{
+            list.enqueue(i);
+            return true;
+        }
     }
 
     /**
@@ -69,7 +79,24 @@ public class MyStack {
      * @return  the element removed, or null if the size was zero.
      */
     public Integer pop() {
-
+        MyQueue newqueue = new MyQueue();
+        int number = 0;
+        int finalNum = 0;
+        if(list.size() == 0){
+            return null;
+        }
+        else{
+            for(int i = 0; i < list.size() - 1; i++){
+                number = list.dequeue();
+                newqueue.enqueue(number);
+            }
+            finalNum = list.dequeue();
+            for(int i = 0; i < list.size(); i++){
+                number = newqueue.dequeue();
+                list.enqueue(number);
+            }
+            return finalNum;
+        }
     }
 
     /**
@@ -79,6 +106,24 @@ public class MyStack {
      * @return the element at the top, or null if the size was zero.
      */
     public Integer peek() {
-
+        MyQueue newqueue = new MyQueue();
+        int number = 0;
+        int finalNum = 0;
+        if(list.size() == 0){
+            return null;
+        }
+        else{
+            for(int i = 0; i < list.size() - 1; i++){
+                number = list.dequeue();
+                newqueue.enqueue(number);
+            }
+            finalNum = list.dequeue();
+            for(int i = 0; i < list.size(); i++){
+                number = newqueue.dequeue();
+                list.enqueue(number);
+            }
+            list.enqueue(finalNum);
+            return finalNum;
+        }
     }
 }
