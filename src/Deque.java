@@ -104,25 +104,31 @@ public class Deque {
         if(i == null){
             throw new NullPointerException();
         }
+        //if cannot add, return false
         else if(list.size() <= size){
             return false;
         }
+        // set head and tail for the beginning
         if(this.isEmpty()){
             head = 0;
             tail = 1;
             list.set(0, i);
             size += 1;
         }
+        //move head one unit forward and insert into the list
         else if(head < tail && head != 0){
             head -= 1;
             list.set(head, i);
             size += 1;
         }
+        //if head is at the first index, it then goes to the last one
         else if(head < tail && head == 0){
             head = capacity() - 1;
             list.set(head, i);
             size += 1;
         }
+        //other condition which head moves forward.
+        // it's the same as the first one above, just to be reassuring
         else if(head > tail){
             head -= 1;
             list.set(head,i);
@@ -144,9 +150,11 @@ public class Deque {
         if(i == null){
             throw new NullPointerException();
         }
+        //if cannot add, return false
         else if(this.isFull()){
             return false;
         }
+        // set the head and tail for the beginning
         if(this.isEmpty()){
             head = 0;
             tail = 0;
@@ -154,16 +162,20 @@ public class Deque {
             tail += 1;
             size = 1;
         }
+        //move tail backward
         else if(head < tail && tail != this.capacity() - 1){
             list.set(tail, i);
             tail += 1;
             size += 1;
         }
+        // if tail is the last one, then it goes to the first
         else if(head < tail && tail == this.capacity() - 1){
             this.list.set(tail, i);
             tail = 0;
             size += 1;
         }
+        //other condition which is the same as the first one
+        // just to be reassuring
         else{
             this.list.set(tail, i);
             tail += 1;
@@ -180,15 +192,17 @@ public class Deque {
      */
     public Integer removeFront() {
         int element = 0;
+        //if list is empty, return nothing
         if(this.isEmpty()){
             return null;
         }
-        //
+        // if head is the last element, it then moves to the first one
         else if(head == this.capacity() - 1 && head > tail){
             element = (int)list.get(head);
             head = 0;
             size -= 1;
         }
+        //head moves backwards
         else{
             element = (int)list.get(head);
             head += 1;
@@ -205,9 +219,11 @@ public class Deque {
      */
     public Integer removeBack() {
         Integer element = 0;
+        // return nothing is list is empty
         if(this.isEmpty()){
             return null;
         }
+        // move tail forwards
         else if (head < tail || (head > tail && tail != 0)) {
             element = (Integer) list.get(tail - 1);
             list.set(tail - 1, 0);
@@ -215,6 +231,7 @@ public class Deque {
             this.size -= 1;
             return element;
         }
+        // if the tail is the first one, it moves to the last
         else if(head > tail && tail == 0){
             element = (Integer) list.get(this.capacity() - 1);
             list.set(this.tail - 1, 0);
@@ -235,6 +252,7 @@ public class Deque {
         if(this.isEmpty()){
             return null;
         }
+        //return the head, not modification for list
         Integer element  = (Integer) list.get(head);
         return element;
     }
@@ -250,9 +268,12 @@ public class Deque {
         if(this.isEmpty()){
             return null;
         }
+        //return the tail when tail is the first one, since the tail is pointing to the next new element
+        // index need to be changed to the last one
         else if(tail == 0){
             element = (Integer) list.get(this.capacity() - 1);
         }
+        //get the element in front of the tail
         else{
             element = (Integer) list.get(this.tail - 1);
         }

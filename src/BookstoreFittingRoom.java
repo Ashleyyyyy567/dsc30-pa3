@@ -72,6 +72,8 @@ public class BookstoreFittingRoom {
                 continue;
             }
 
+            //check if the customer in line is empty
+            // if so, check each room if it's empty, plus one min
             if(customersQueue.size() == 0){
                 for(int j = 0; j < changingRooms.length; j ++){
                     number = changingRooms[j].dequeue();
@@ -82,7 +84,9 @@ public class BookstoreFittingRoom {
                     }
                 }
             }
-
+            //loop through every customer waiting in line
+            //if the time range fits, add it into the room
+            //if not, reject and add to waste time and change to other customer 
             else{
                 for(int j = 0; j < customersQueue.size(); j++){
                     nextCustomer = customersQueue.dequeue();
