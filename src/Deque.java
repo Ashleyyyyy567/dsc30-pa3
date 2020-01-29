@@ -183,7 +183,8 @@ public class Deque {
         if(this.isEmpty()){
             return null;
         }
-        else if(head == this.capacity() - 1){
+        //
+        else if(head == this.capacity() - 1 && head > tail){
             element = (int)list.get(head);
             head = 0;
             size -= 1;
